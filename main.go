@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 
+	"github.com/jeremyholbrecht/nakama/internal/routes"
 	_ "github.com/lib/pq"
 )
 
@@ -67,5 +69,15 @@ func main() {
 		log.Fatal(insertInToDevilFruitsErr)
 	}
 	fmt.Println("Connected to Nakama!")
+
+	router := routes.NewRouter()
+
+	port := 8080
+	addr := fmt.Sprintf("%d", port)
+	fmt.Printf("Server listening on http://localhost%s\n", addr)
+	err2 := http.ListenAndServe(addr, router)
+	if err2 != nil {
+		panic(err2)
+	}
 
 }
