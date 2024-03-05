@@ -23,6 +23,12 @@ type character struct {
 	affiliation string
 }
 
+type devilFruit struct {
+	name     string
+	category string
+	owner    string
+}
+
 func main() {
 
 	//connection string
@@ -46,13 +52,20 @@ func main() {
 	luffy := character{name: "Monkey D. Luffy", devilFruit: "Gomu Gomu no Mi", affiliation: "Straw Hat Pirates"}
 	zoro := character{name: "Roronoa Zoro", age: 17, affiliation: "Straw Hat Pirates"}
 
+	gomuGomuNoMi := devilFruit{name: "Gomu Gomu no Mi", category: "Paramecia", owner: luffy.name}
 	//insert
-	query := `insert into "characters" ("name", "affiliation") values ($1, $2), ($3, $4)`
-	_, e := db.Exec(query, zoro.name, zoro.affiliation, luffy.name, luffy.affiliation)
-	if e != nil {
-		log.Fatal(e)
+	insertInToCharacters := `insert into "characters" ("name", "affiliation") values ($1, $2), ($3, $4)`
+	_, insertInToCharactersErr := db.Exec(insertInToCharacters, zoro.name, zoro.affiliation, luffy.name, luffy.affiliation)
+	if insertInToCharactersErr != nil {
+		log.Fatal(insertInToCharactersErr)
 	}
 
+	insertInToDevilFruits := `insert into "devilfruits" ("name", "category", "owner") values ($1,$2,$3)`
+	_, insertInToDevilFruitsErr := db.Exec(insertInToDevilFruits, gomuGomuNoMi.name, gomuGomuNoMi.category, gomuGomuNoMi.owner)
+
+	if insertInToDevilFruitsErr != nil {
+		log.Fatal(insertInToDevilFruitsErr)
+	}
 	fmt.Println("Connected to Nakama!")
 
 }
