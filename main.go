@@ -73,7 +73,7 @@ func main() {
 	router := routes.NewRouter()
 
 	port := 8080
-	addr := fmt.Sprintf("%d", port)
+	addr := fmt.Sprintf(":%d", port)
 	fmt.Printf("Server listening on http://localhost%s\n", addr)
 	err2 := http.ListenAndServe(addr, router)
 	if err2 != nil {
